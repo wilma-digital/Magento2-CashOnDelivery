@@ -31,14 +31,16 @@ define(
 
         quote.paymentMethod.subscribe(function (newValue) {
             var oldMethod = window.checkoutConfig.payment.phoenix_cashondelivery.previousMethod;
-            var newMethod = newValue.method;
-            if (oldMethod === 'phoenix_cashondelivery' || newMethod === 'phoenix_cashondelivery') {
-                var paymentMethod = quote.paymentMethod();
-                if (paymentMethod.title) {
-                    return;
+            if(newValue !== null){
+                var newMethod = newValue.method;
+                if (oldMethod === 'phoenix_cashondelivery' || newMethod === 'phoenix_cashondelivery') {
+                    var paymentMethod = quote.paymentMethod();
+                    if (paymentMethod.title) {
+                        return;
+                    }
+                    setPaymentInformation(null, paymentMethod);
+                    getTotals([]);
                 }
-                setPaymentInformation(null, paymentMethod);
-                getTotals([]);
             }
         });
 
