@@ -46,7 +46,7 @@ class CashOnDelivery extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null)
     {
-        $available = parent::isAvailable($quote);
+        $available = parent::isAvailable($quote) && $this->isCountryAllowed($quote);
 
         $disallowSpecificShippingMethods = $this->disallowSpecificShippingMethods();
 
@@ -82,4 +82,25 @@ class CashOnDelivery extends \Magento\Payment\Model\Method\AbstractMethod
 
         return explode(',', $disallowedShippingMethods);
     }
+    
+    /**
+     * @param $quote
+     * @return bool
+     */
+    protected function isCountryAllowed($quote): bool
+    {
+        $countryAllowed = true;
+        if ($quote && $this->getConfigData('allowspecific')) {
+            $countries = explode(",", $this->getConfigData('specificcountry'));
+            $shippingAddress = $quote->getShippingAddress();
+            if ($shippingAddress) {
+                $countryId = $shippingAddress->getCountryId();
+                if ($countryId && !in_array($countryId, $countries)) {
+                    $countryAllowed = false;
+                }
+            }
+        }
+        return $countryAllowed;
+    }
+    
 }
