@@ -39,7 +39,7 @@ define(
 
             if (oldMethod === 'phoenix_cashondelivery' || newMethod === 'phoenix_cashondelivery') {
                 var paymentMethod = quote.paymentMethod();
-                if (paymentMethod.title) {
+                if (!paymentMethod || paymentMethod.title) {
                     return;
                 }
                 setPaymentInformation(null, paymentMethod);
