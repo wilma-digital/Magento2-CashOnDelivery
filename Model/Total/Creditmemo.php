@@ -126,7 +126,8 @@ class Creditmemo extends AbstractTotal
     {
         if($creditmemo->getOrder()->getShippingAmount()<=0)
         {
-            return true;
+            //prevent division by zero when the shipping amount is 0
+            return false;
         }
         $part = $creditmemo->getShippingAmount() / $creditmemo->getOrder()->getShippingAmount();
 
