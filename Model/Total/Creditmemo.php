@@ -124,6 +124,11 @@ class Creditmemo extends AbstractTotal
 
     private function isPartialShippingRefunded(MagentoCreditmemo $creditmemo)
     {
+        if($creditmemo->getOrder()->getShippingAmount()<=0)
+        {
+            //prevent division by zero when the shipping amount is 0
+            return false;
+        }
         $part = $creditmemo->getShippingAmount() / $creditmemo->getOrder()->getShippingAmount();
 
         return $part < 1 && $creditmemo->getOrder()->getShippingTaxAmount() > 0;
