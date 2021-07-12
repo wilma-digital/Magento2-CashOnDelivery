@@ -56,6 +56,12 @@ class Invoice extends AbstractTotal
             $codFee = $invoice->getCodFeeInclTax();
         }
 
+        $baseCodTaxAmount = $invoice->getBaseCodTaxAmount();
+        $codTaxAmount = $invoice->getCodTaxAmount();
+
+        $invoice->setTaxAmount($invoice->getTaxAmount() + $codTaxAmount);
+        $invoice->setBaseTaxAmount($invoice->getBaseTaxAmount() + $baseCodTaxAmount);
+
         $invoice->setBaseGrandTotal($invoice->getBaseGrandTotal() + $baseCodFee);
         $invoice->setGrandTotal($invoice->getGrandTotal() + $codFee);
 
