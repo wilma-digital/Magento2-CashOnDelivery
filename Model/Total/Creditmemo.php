@@ -66,7 +66,7 @@ class Creditmemo extends AbstractTotal
         $this->setCustomRefund($creditmemo);
 
         $isPartialShippingRefunded = $this->isPartialShippingRefunded($creditmemo);
-        if ($isPartialShippingRefunded || $this->config->codFeeIncludesTax()) {
+        if ($isPartialShippingRefunded) {
             $totalBaseCodFee = $creditmemo->getBaseCodFeeInclTax();
             $totalCodFee = $creditmemo->getCodFeeInclTax();
         } else {

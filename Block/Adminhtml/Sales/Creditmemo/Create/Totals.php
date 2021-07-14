@@ -98,7 +98,7 @@ class Totals extends Template
             'block_name' => $this->getNameInLayout(),
         ]);
 
-        $parent->addTotal($total, 'agjustments');
+        $parent->addTotal($total, 'adjustments');
         return $this;
     }
 
