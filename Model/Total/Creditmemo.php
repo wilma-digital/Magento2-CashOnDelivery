@@ -90,9 +90,11 @@ class Creditmemo extends AbstractTotal
         $rate = $creditmemo->getBaseToOrderRate();
         $customFee = $this->helper->roundPrice($baseCustomFee * $rate);
 
-        $taxRate = $creditmemo->getBaseCodFeeInclTax() / $creditmemo->getBaseCodFee();
+        // Error Division by zero fix edited from this PR:
+        // https://github.com/PHOENIX-MEDIA/Magento2-CashOnDelivery/pull/26/commits/2992740e56150d5e5fb6bf8232a7ad46e7ca656c#diff-3262f248ecabcccaf8f1c6ade805fc61cbffca9a941baf21286c1f6b971be0eaR93
+        $taxRate = $creditmemo->getBaseCodFee() != 0 ? $creditmemo->getBaseCodFeeInclTax() / $creditmemo->getBaseCodFee() : 0;
 
-        if ($this->config->codFeeIncludesTax()) {
+        if ($taxRate > 0 && $this->config->codFeeIncludesTax()) {
             $baseCodFeeInclTax = $baseCustomFee;
             $codFeeInclTax = $customFee;
 

@@ -17,6 +17,7 @@
 namespace Phoenix\CashOnDelivery\Plugin\Sales;
 
 use Magento\Sales\Model\Order\Invoice;
+use Phoenix\CashOnDelivery\Model\Config;
 
 /**
  * Class InvoicePlugin
@@ -25,6 +26,13 @@ use Magento\Sales\Model\Order\Invoice;
  */
 class InvoicePlugin
 {
+    private $codConfig;
+    public function __construct(
+        Config $codConfig
+    ) {
+        $this->codConfig = $codConfig;
+    }
+
     /**
      * Adds invoiced Cash on Delivery fee and tax to order
      *
@@ -38,8 +46,13 @@ class InvoicePlugin
     ) {
         $order = $subject->getOrder();
 
-        $order->setBaseCodFeeInvoiced($order->getBaseCodFeeInvoiced() + $subject->getBaseCodFee());
-        $order->setCodFeeInvoiced($order->getCodFeeInvoiced() + $subject->getCodFee());
+        if($this->codConfig->codFeeIncludesTax()){
+            $order->setBaseCodFeeInvoiced($order->getBaseCodFeeInvoiced() + $subject->getBaseCodFeeInclTax());
+            $order->setCodFeeInvoiced($order->getCodFeeInvoiced() + $subject->getCodFeeInclTax());
+        } else {
+            $order->setBaseCodFeeInvoiced($order->getBaseCodFeeInvoiced() + $subject->getBaseCodFee());
+            $order->setCodFeeInvoiced($order->getCodFeeInvoiced() + $subject->getCodFee());
+        }
 
         $order->setBaseCodTaxAmountInvoiced($order->getBaseCodTaxAmountInvoiced() + $subject->getBaseCodTaxAmount());
         $order->setCodTaxAmountInvoiced($order->getCodTaxAmountInvoiced() + $subject->getCodTaxAmount());
@@ -60,8 +73,13 @@ class InvoicePlugin
     ) {
         $order = $subject->getOrder();
 
-        $order->setBaseCodFeeInvoiced($order->getBaseCodFeeInvoiced() - $subject->getBaseCodFee());
-        $order->setCodFeeInvoiced($order->getCodFeeInvoiced() - $subject->getCodFee());
+        if($this->codConfig->codFeeIncludesTax()){
+            $order->setBaseCodFeeInvoiced($order->getBaseCodFeeInvoiced() - $subject->getBaseCodFeeInclTax());
+            $order->setCodFeeInvoiced($order->getCodFeeInvoiced() - $subject->getCodFeeInclTax());
+        } else {
+            $order->setBaseCodFeeInvoiced($order->getBaseCodFeeInvoiced() - $subject->getBaseCodFee());
+            $order->setCodFeeInvoiced($order->getCodFeeInvoiced() - $subject->getCodFee());
+        }
 
         $order->setBaseCodTaxAmountInvoiced($order->getBaseCodTaxAmountInvoiced() - $subject->getBaseCodTaxAmount());
         $order->setCodTaxAmountInvoiced($order->getCodTaxAmountInvoiced() - $subject->getCodTaxAmount());
