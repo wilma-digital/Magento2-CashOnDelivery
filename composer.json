@@ -1,5 +1,5 @@
 {
-  "name": "phoenix/module-cashondelivery",
+  "name": "dnafactory/module-cashondelivery",
   "description": "Phoenix Cash on Delivery module for Magento 2",
   "require": {
     "magento/module-checkout": ">=100.0.0",
@@ -9,7 +9,7 @@
     "magento/framework": ">=100.0.0"
   },
   "type": "magento2-module",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "license": [
     "OSL-3.0"
   ],
