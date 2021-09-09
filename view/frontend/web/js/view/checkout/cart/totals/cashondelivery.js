@@ -19,15 +19,16 @@ define(
     ], function (Component) {
         'use strict';
         
-        isSelected: function () {
-          if (totals.getSegment('cashondelivery').value > 0 || totals.getSegment('cashondelivery_incl_tax').value > 0) {
-                return true;
-          }
-
-          return false;
-        },
-
         return Component.extend({
+            
+             isSelected: function () {
+                 if (totals.getSegment('cashondelivery').value > 0 || totals.getSegment('cashondelivery_incl_tax').value > 0) {
+                    return true;
+                }
+
+                return false;
+            },
+            
             isDisplayed: function () {
                 return true;
             }
