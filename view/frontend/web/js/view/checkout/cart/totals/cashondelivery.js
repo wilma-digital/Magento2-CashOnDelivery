@@ -15,8 +15,9 @@
 
 define(
     [
-        'Phoenix_CashOnDelivery/js/view/checkout/summary/cashondelivery'
-    ], function (Component) {
+        'Phoenix_CashOnDelivery/js/view/checkout/summary/cashondelivery',
+        'Magento_Checkout/js/model/totals'
+    ], function (Component, totals) {
         'use strict';
         
         return Component.extend({
