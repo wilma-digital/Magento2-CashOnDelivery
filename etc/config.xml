@@ -22,6 +22,7 @@
                 <payment_action>authorize</payment_action>
                 <allowspecific>0</allowspecific>
                 <shippingallowspecific>0</shippingallowspecific>
+                <addresstype>billing</addresstype>
                 <disallowspecificshippingmethods>0</disallowspecificshippingmethods>
                 <display_zero_fee>0</display_zero_fee>
             </phoenix_cashondelivery>

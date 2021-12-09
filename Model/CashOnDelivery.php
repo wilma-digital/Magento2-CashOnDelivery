@@ -82,7 +82,7 @@ class CashOnDelivery extends \Magento\Payment\Model\Method\AbstractMethod
 
         return explode(',', $disallowedShippingMethods);
     }
-    
+
     /**
      * @param $quote
      * @return bool
@@ -92,7 +92,11 @@ class CashOnDelivery extends \Magento\Payment\Model\Method\AbstractMethod
         $countryAllowed = true;
         if ($quote && $this->getConfigData('allowspecific')) {
             $countries = explode(",", $this->getConfigData('specificcountry'));
-            $shippingAddress = $quote->getBillingAddress();
+            if ($this->getConfigData('addresstype') == 'shipping') {
+                $shippingAddress = $quote->getShippingAddress();
+            } else {
+                $shippingAddress = $quote->getBillingAddress();
+            }
             if ($shippingAddress) {
                 $countryId = $shippingAddress->getCountryId();
                 if ($countryId && !in_array($countryId, $countries)) {
@@ -102,5 +106,5 @@ class CashOnDelivery extends \Magento\Payment\Model\Method\AbstractMethod
         }
         return $countryAllowed;
     }
-    
+
 }

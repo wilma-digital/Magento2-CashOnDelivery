@@ -33,6 +33,10 @@
                         <field id="allowspecific">1</field>
                     </depends>
                 </field>
+                <field id="addresstype" type="select" translate="label" sortOrder="42" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Check Country on Address of Type</label>
+                    <source_model>Phoenix\CashOnDelivery\Model\Config\Source\AddressType</source_model>
+                </field>
                 <field id="cost_type" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Cost calculation</label>
                     <source_model>Phoenix\CashOnDelivery\Model\Config\Source\CalculationType</source_model>
