@@ -93,7 +93,23 @@ class Quote extends AbstractTotal
     {
         $shippingOrigin = $this->helper->getShippingOriginCountry();
         $shippingCountry = $quote->getShippingAddress()->getCountry();
-        $total = $quote->getBaseSubtotal();
+
+        $strategyCalculation = $this->helper->getSubtotalStrategyCalculation();
+
+        switch ($strategyCalculation) {
+            case (\Phoenix\CashOnDelivery\Model\Config::SUBTOTAL_STRATEGY_INCL_TAX):
+                /** @var \Magento\Quote\Model\Quote\Address\Total $subtotalSegment */
+                $subtotalSegment = $quote->getTotals()['subtotal'];
+                $total = $subtotalSegment->getData('value_incl_tax');
+                break;
+            case (\Phoenix\CashOnDelivery\Model\Config::SUBTOTAL_STRATEGY_EXCL_TAX):
+                /** @var \Magento\Quote\Model\Quote\Address\Total $subtotalSegment */
+                $subtotalSegment = $quote->getTotals()['subtotal'];
+                $total = $subtotalSegment->getData('value_excl_tax');
+                break;
+            default:
+                $total = $quote->getBaseSubtotal();
+        }
 
         $baseCodFee = $shippingCountry === $shippingOrigin
             ? $this->helper->getInlandCodFee($total)
