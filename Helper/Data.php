@@ -124,7 +124,7 @@ class Data
      * Get subtotal strategy calculation for Fee
      *
      * @param null|string|bool|int|Store $store
-     * @return int
+     * @return string|null
      */
     public function getSubtotalStrategyCalculation($store = null)
     {
