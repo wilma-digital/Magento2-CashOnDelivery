@@ -8,12 +8,12 @@
     </section>
     <section name="order_invoice">
         <group name="totals">
-            <item name="phoenix_cashondelivery" instance="Phoenix\CashOnDelivery\Model\Total\Invoice" sort_order="160"/>
+            <item name="phoenix_cashondelivery" instance="Phoenix\CashOnDelivery\Model\Total\Invoice" sort_order="210"/>
         </group>
     </section>
     <section name="order_creditmemo">
         <group name="totals">
-            <item name="phoenix_cashondelivery" instance="Phoenix\CashOnDelivery\Model\Total\Creditmemo" sort_order="210"/>
+            <item name="phoenix_cashondelivery" instance="Phoenix\CashOnDelivery\Model\Total\Creditmemo" sort_order="260"/>
         </group>
     </section>
 </config>

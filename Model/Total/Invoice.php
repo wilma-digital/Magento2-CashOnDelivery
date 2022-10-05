@@ -18,6 +18,7 @@ namespace Phoenix\CashOnDelivery\Model\Total;
 
 use Magento\Sales\Model\Order\Invoice\Total\AbstractTotal;
 use Phoenix\CashOnDelivery\Helper\Data;
+use Phoenix\CashOnDelivery\Model\Config;
 
 class Invoice extends AbstractTotal
 {
@@ -25,13 +26,16 @@ class Invoice extends AbstractTotal
      * @var Data $helper
      */
     protected $helper;
+    private $codConfig;
 
     public function __construct(
+        Config $codConfig,
         Data $helper,
         array $data = []
     ) {
         parent::__construct($data);
         $this->helper = $helper;
+        $this->codConfig = $codConfig;
     }
 
     /**
@@ -44,8 +48,19 @@ class Invoice extends AbstractTotal
             return $this;
         }
 
-        $baseCodFee = $invoice->getBaseCodFee();
-        $codFee = $invoice->getCodFee();
+        if(!$this->codConfig->codFeeIncludesTax()) {
+            $baseCodFee = $invoice->getBaseCodFee();
+            $codFee = $invoice->getCodFee();
+        } else {
+            $baseCodFee = $invoice->getBaseCodFeeInclTax();
+            $codFee = $invoice->getCodFeeInclTax();
+        }
+
+        $baseCodTaxAmount = $invoice->getBaseCodTaxAmount();
+        $codTaxAmount = $invoice->getCodTaxAmount();
+
+        $invoice->setTaxAmount($invoice->getTaxAmount() + $codTaxAmount);
+        $invoice->setBaseTaxAmount($invoice->getBaseTaxAmount() + $baseCodTaxAmount);
 
         $invoice->setBaseGrandTotal($invoice->getBaseGrandTotal() + $baseCodFee);
         $invoice->setGrandTotal($invoice->getGrandTotal() + $codFee);
