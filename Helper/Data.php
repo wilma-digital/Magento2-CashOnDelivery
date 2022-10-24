@@ -121,6 +121,17 @@ class Data
     }
 
     /**
+     * Get subtotal strategy calculation for Fee
+     *
+     * @param null|string|bool|int|Store $store
+     * @return string|null
+     */
+    public function getSubtotalStrategyCalculation($store = null)
+    {
+        return $this->codConfig->getSubtotalStrategyCalculation($store);
+    }
+
+    /**
      * Checks if quote has set Phoenix Cash on Delivery as its payment method
      *
      * @param Quote|Order|Invoice|Creditmemo $quote

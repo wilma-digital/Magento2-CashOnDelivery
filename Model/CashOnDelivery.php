@@ -57,13 +57,14 @@ class CashOnDelivery extends \Magento\Payment\Model\Method\AbstractMethod
         $extensionAttributes = $quote->getExtensionAttributes();
         if ($extensionAttributes !== null) {
             $shippingMethods = $extensionAttributes->getShippingAssignments();
-
-            $disallowedShippingMethods = $this->getDisallowedShippingMethods();
-            foreach ($shippingMethods as $shippingMethod) {
-                if (in_array($shippingMethod->getShipping()->getMethod(), $disallowedShippingMethods)) {
-                    $available = false;
+            if ($shippingMethods != null) {
+                $disallowedShippingMethods = $this->getDisallowedShippingMethods();
+                foreach ($shippingMethods as $shippingMethod) {
+                    if (in_array($shippingMethod->getShipping()->getMethod(), $disallowedShippingMethods)) {
+                        $available = false;
+                    }
+                    $shippingMethod->getShipping()->getMethod();
                 }
-                $shippingMethod->getShipping()->getMethod();
             }
         }
 
@@ -82,7 +83,7 @@ class CashOnDelivery extends \Magento\Payment\Model\Method\AbstractMethod
 
         return explode(',', $disallowedShippingMethods);
     }
-    
+
     /**
      * @param $quote
      * @return bool
@@ -92,7 +93,11 @@ class CashOnDelivery extends \Magento\Payment\Model\Method\AbstractMethod
         $countryAllowed = true;
         if ($quote && $this->getConfigData('allowspecific')) {
             $countries = explode(",", $this->getConfigData('specificcountry'));
-            $shippingAddress = $quote->getBillingAddress();
+            if ($this->getConfigData('addresstype') == 'shipping') {
+                $shippingAddress = $quote->getShippingAddress();
+            } else {
+                $shippingAddress = $quote->getBillingAddress();
+            }
             if ($shippingAddress) {
                 $countryId = $shippingAddress->getCountryId();
                 if ($countryId && !in_array($countryId, $countries)) {
@@ -102,5 +107,5 @@ class CashOnDelivery extends \Magento\Payment\Model\Method\AbstractMethod
         }
         return $countryAllowed;
     }
-    
+
 }
