@@ -45,6 +45,8 @@ class Config
 
     const XML_PATH_PHOENIX_CASHONDELIVERY_COST_TYPE = 'payment/phoenix_cashondelivery/cost_type';
 
+    const XML_PATH_PHOENIX_CASHONDELIVERY_SUBTOTAL_STRATEGY = 'payment/phoenix_cashondelivery/subtotal_strategy';
+
     const XML_PATH_PHOENIX_CASHONDELIVERY_INLAND_COST = 'payment/phoenix_cashondelivery/inlandcosts';
 
     const XML_PATH_PHOENIX_CASHONDELIVERY_MIN_INLAND_COST = 'payment/phoenix_cashondelivery/minimum_inlandcosts';
@@ -70,6 +72,10 @@ class Config
     const CALCULATION_TYPE_FIXED = 0;
 
     const CALCULATION_TYPE_PERCENTAGE = 1;
+
+    const SUBTOTAL_STRATEGY_DEFAULT = 'default';
+    const SUBTOTAL_STRATEGY_INCL_TAX = 'including_tax';
+    const SUBTOTAL_STRATEGY_EXCL_TAX = 'excluding_tax';
 
     /**
      * Core store config
@@ -320,6 +326,17 @@ class Config
     public function getShippingOriginCountry($store = null)
     {
         return (string)$this->_getConfigValue(self::XML_PATH_SHIPPING_ORIGIN_COUNTRY, $store);
+    }
+
+    /**
+     * Get subtotal strategy calculation
+     *
+     * @param null|string|bool|int|Store $store
+     * @return string|null
+     */
+    public function getSubtotalStrategyCalculation($store = null)
+    {
+        return (string)$this->_getConfigValue(self::XML_PATH_PHOENIX_CASHONDELIVERY_SUBTOTAL_STRATEGY, $store);
     }
 
     /**
