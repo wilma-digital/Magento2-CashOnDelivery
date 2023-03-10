@@ -6,4 +6,8 @@
     <event name="sales_order_creditmemo_refund">
         <observer name="phoenix_cashondelivery_refund_operation" instance="Phoenix\CashOnDelivery\Observer\Sales\Model\RefundOperation\AddToOrder"/>
     </event>
+
+    <event name="controller_action_predispatch_checkout_cart_index">
+        <observer name="remove_cod_in_cart_page" instance="Phoenix\CashOnDelivery\Observer\RemoveCodInCart"/>
+    </event>
 </config>
