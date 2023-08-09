@@ -79,8 +79,7 @@ class CashOnDelivery extends \Magento\Payment\Model\Method\AbstractMethod
 
     private function getDisallowedShippingMethods()
     {
-        $disallowedShippingMethods = $this->getConfigData('disallowedshippingmethods');
-
+        $disallowedShippingMethods = $this->getConfigData('disallowedshippingmethods')?: "";
         return explode(',', $disallowedShippingMethods);
     }
 
@@ -92,7 +91,9 @@ class CashOnDelivery extends \Magento\Payment\Model\Method\AbstractMethod
     {
         $countryAllowed = true;
         if ($quote && $this->getConfigData('allowspecific')) {
-            $countries = explode(",", $this->getConfigData('specificcountry'));
+            $specificCountry = $this->getConfigData('specificcountry')?: "";
+            $countries = explode(",", $specificCountry);
+
             if ($this->getConfigData('addresstype') == 'shipping') {
                 $shippingAddress = $quote->getShippingAddress();
             } else {
